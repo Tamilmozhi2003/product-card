@@ -1,0 +1,537 @@
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Pacifico&display=swap');
+
+/* ── Variables ── */
+:root {
+  --bg:       #0e1015;
+  --red:      #e8000b;
+  --dark-red: #8a0005;
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Full dark screen ── */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background: radial-gradient(ellipse at center, #1a1a2e 0%, #0e1015 70%);
+}
+
+/* ════════════════════════════════════════
+   CARD WRAPPER — circle → rounded rect
+════════════════════════════════════════ */
+.card-wrapper {
+  position: relative;
+  width: 270px;
+  height: 270px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    width        0.75s cubic-bezier(0.25, 1, 0.5, 1),
+    height       0.75s cubic-bezier(0.25, 1, 0.5, 1),
+    border-radius 0.75s cubic-bezier(0.25, 1, 0.5, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-wrapper.open {
+  width: 640px;
+  height: 340px;
+  border-radius: 18px;
+  overflow: visible;
+}
+
+/* ════════════════════════════════════════
+   GLOWING BACKGROUND
+════════════════════════════════════════ */
+.glow-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 1;
+  /* Closed: black circle with red neon ring */
+  background: #0d0d0d;
+  border: 5px solid var(--red);
+  box-shadow:
+    0 0 28px 8px  rgba(232, 0, 11, 0.80),
+    0 0 65px 18px rgba(232, 0, 11, 0.38),
+    inset 0 0 35px rgba(0, 0, 0, 0.85);
+  transition:
+    background     0.75s ease,
+    border         0.4s  ease,
+    box-shadow     0.75s ease,
+    border-radius  0.75s ease;
+}
+
+/* Open: solid red gradient card */
+.card-wrapper.open .glow-bg {
+  background: linear-gradient(155deg, #e8000b 0%, #a00007 60%, #6e0004 100%);
+  border: none;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.65),
+    0  8px 30px rgba(0, 0, 0, 0.40),
+    0  0   50px rgba(232, 0, 11, 0.18);
+}
+
+/* ════════════════════════════════════════
+   CONTENT LAYER
+════════════════════════════════════════ */
+.card-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+/* ════════════════════════════════════════
+   CLOSED STATE — Eclipse circle
+════════════════════════════════════════ */
+.collapsed-view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.3s ease, transform 0.35s ease;
+  pointer-events: auto;
+}
+
+.collapsed-view.hide {
+  opacity: 0;
+  transform: scale(0.55);
+  pointer-events: none;
+}
+
+/* Coca-Cola script text */
+.coca-cola-text {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.7rem;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  text-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.7),
+    0 0   22px rgba(255, 255, 255, 0.12);
+  animation: pulse 2.8s ease-in-out infinite;
+  user-select: none;
+}
+
+/* ════════════════════════════════════════
+   OPEN STATE — Expanded red card
+════════════════════════════════════════ */
+.expanded-view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 30px 36px;
+  gap: 0;
+  opacity: 0;
+  transform: scale(0.88);
+  transition:
+    opacity   0.45s ease,
+    transform 0.45s ease;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.expanded-view.show {
+  opacity: 1;
+  transform: scale(1);
+  transition-delay: 0.2s;
+  pointer-events: auto;
+}
+
+/* ── Left: text column ── */
+.text-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding-right: 16px;
+  /* Ensure text stays above wide image layer so button is clickable */
+  z-index: 10;
+  position: relative;
+}
+
+.title {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
+
+.description {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.9);
+  max-width: 220px;
+}
+
+.cta-button {
+  margin-top: 4px;
+  padding: 10px 28px;
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.7);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+
+.cta-button:hover {
+  background: #fff;
+  color: var(--red);
+  border-color: #fff;
+}
+
+/* ── Right: bottle column ── */
+.image-section {
+  flex: 0 0 230px;
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: visible;
+  padding-right: 100px;
+
+  position:absolute;
+  right:-40px;
+  top:-10%;
+  transform:translateY(-50%);
+  width:600px;
+  z-index:5;
+  /* PREVENT THIS WIDE DIV FROM BLOCKING THE BUTTON CLICKS */
+  pointer-events: none;
+
+  width:100%;
+  display:block;
+  object-fit:contain;
+
+  animation: float 4s ease-in-out infinite;
+}
+
+
+
+
+
+
+
+
+
+/* 
+  Bottle fills the right side and overflows top+bottom 
+  to give the "popping out of the card" effect seen in the reference image 
+*/
+.product-image {
+  position: absolute;
+  bottom: -55px;           /* overflow below card */
+  right: -10px;
+  height: 460px;           /* much taller than the 340px card */
+  width: auto;
+  object-fit: contain;
+  filter:
+    drop-shadow(-8px 12px 28px rgba(0, 0, 0, 0.80))
+    drop-shadow( 4px -4px 12px rgba(0, 0, 0, 0.40));
+  animation: floatBottle 3.5s ease-in-out infinite alternate;
+}
+
+/* ── Keyframes ── */
+@keyframes pulse {
+  0%,  100% { transform: scale(1);    opacity: 0.88; }
+  50%        { transform: scale(1.06); opacity: 1;    }
+}
+
+@keyframes floatBottle {
+  from { transform: translateY(0);    }
+  to   { transform: translateY(-14px); }
+}
+
+
+/* ════════════════════════════════════════════
+   POPUP MODAL
+════════════════════════════════════════════ */
+
+/* Dark blurred overlay */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: overlayIn 0.3s ease forwards;
+}
+
+/* Popup card */
+.popup-box {
+  position: relative;
+  background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+  border: 1px solid rgba(232, 0, 11, 0.4);
+  border-radius: 24px;
+  padding: 50px 48px 40px;
+  width: 420px;
+  max-width: 90vw;
+  text-align: center;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05),
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0  0   60px rgba(232, 0, 11, 0.15);
+  animation: popupIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  overflow: hidden;
+}
+
+/* ── Animated SVG Checkmark ── */
+.popup-icon {
+  margin: 0 auto 24px;
+  width: 80px;
+  height: 80px;
+}
+
+.checkmark-svg {
+  width: 80px;
+  height: 80px;
+}
+
+.checkmark-circle {
+  stroke: #e8000b;
+  stroke-width: 2;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: strokeCircle 0.6s ease 0.2s forwards;
+}
+
+.checkmark-tick {
+  stroke: #e8000b;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: strokeTick 0.4s ease 0.8s forwards;
+}
+
+/* ── Text ── */
+.popup-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 12px;
+  letter-spacing: 0.5px;
+  animation: fadeUp 0.5s ease 0.5s both;
+}
+
+.popup-message {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 30px;
+  animation: fadeUp 0.5s ease 0.65s both;
+}
+
+/* ── Close Button ── */
+.popup-close-btn {
+  padding: 12px 40px;
+  background: linear-gradient(135deg, #e8000b, #a00007);
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  box-shadow: 0 8px 24px rgba(232, 0, 11, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: fadeUp 0.5s ease 0.8s both;
+}
+
+.popup-close-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 12px 32px rgba(232, 0, 11, 0.6);
+}
+
+.popup-close-btn:active {
+  transform: scale(0.97);
+}
+
+/* ── Floating Bubbles ── */
+.bubble {
+  position: absolute;
+  font-size: 1.5rem;
+  animation: bubbleFloat 3s ease-in-out infinite alternate;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.b1 { top: 14px;  left: 18px;  animation-delay: 0s;    font-size: 1.4rem; }
+.b2 { top: 16px;  right: 20px; animation-delay: 0.4s;  font-size: 1.2rem; }
+.b3 { bottom: 20px; left: 22px; animation-delay: 0.8s; font-size: 1.1rem; }
+.b4 { bottom: 18px; right: 16px; animation-delay: 1.2s; font-size: 1.3rem; }
+
+/* ════════════════════════════════════════════
+   POPUP KEYFRAMES
+════════════════════════════════════════════ */
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes popupIn {
+  from {
+    opacity: 0;
+    transform: scale(0.6) translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes strokeCircle {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes strokeTick {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes bubbleFloat {
+  from { transform: translateY(0)    rotate(0deg);   }
+  to   { transform: translateY(-10px) rotate(12deg); }
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE DESIGN (Mobile < 768px)
+════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  /* Closed State (Smaller Circle) */
+  .card-wrapper {
+    width: 220px;
+    height: 220px;
+  }
+  .coca-cola-text {
+    font-size: 2.2rem;
+  }
+
+  /* Open State (Taller & Stacked Layout) */
+  .card-wrapper.open {
+    width: 90vw;
+    height: 520px; /* Slightly shorter since there is no overflow */
+    border-radius: 24px;
+    overflow: hidden; /* Guarantee no elements spill outside the red card */
+  }
+  
+  .expanded-view {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0; /* Remove padding to control sections precisely */
+  }
+  
+  /* Reset user's desktop absolute layout & stop double-animations */
+  .image-section {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    flex: 0 0 250px; /* Exact height for the contained bottle */
+    padding: 0;
+    animation: none !important; /* Stop the desktop floating wrapper */
+  }
+  
+  .product-image {
+    height: 230px; /* Shrunk so it stays 100% inside the card */
+    bottom: 10px; /* Slight padding from the bottom of its section */
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Pure vertical bobbing for mobile */
+    animation: floatBottleMobile 3.5s ease-in-out infinite alternate !important;
+  }
+  
+  /* Remove left/right sliding animations on mobile so it stays perfectly stable and centered */
+  [data-aos] {
+    transform: none !important;
+  }
+  
+  .text-section {
+    padding: 0 24px 30px 24px; /* Space around text */
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    z-index: 10;
+    justify-content: center; /* Vertically center the text blocks */
+  }
+  
+  .title {
+    font-size: 2.4rem;
+  }
+  
+  .description {
+    max-width: 95%;
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+  }
+  
+  .cta-button {
+    align-self: center;
+    margin-top: 0;
+    padding: 12px 32px;
+  }
+  
+  /* Mobile Popup Adjustments */
+  .popup-box {
+    padding: 36px 24px;
+    width: 90vw;
+  }
+  .popup-title {
+    font-size: 1.4rem;
+  }
+}
+
+/* Mobile Bottle Float Keyframes */
+@keyframes floatBottleMobile {
+  from { transform: translateX(-50%) translateY(0);    }
+  to   { transform: translateX(-50%) translateY(-14px); }
+}
